@@ -30,11 +30,10 @@ public class JwtSecreat {
                 .setIssuer("")
                 .setIssuedAt(now)
                 .setExpiration(expireDate);
-        HashMap<String , String> map = new HashMap<>();
-        Iterator iterator = map.keySet().iterator();
-        while (iterator.hasNext()){
-            String key = String.valueOf(iterator.next());
-            builder.claim(key, map.get(key));
+        Iterator userIterator = userMap.keySet().iterator();
+        while(userIterator.hasNext()){
+            String key = String.valueOf(userIterator.next());
+            builder.claim(key, userMap.get(key));
         }
 
         return builder.signWith(privateKey, SignatureAlgorithm.RS256)
