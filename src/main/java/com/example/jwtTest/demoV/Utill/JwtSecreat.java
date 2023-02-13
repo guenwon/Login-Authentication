@@ -1,13 +1,10 @@
-package com.example.jwtTest.Utill;
+package com.example.jwtTest.demoV.Utill;
 
-import io.jsonwebtoken.Header;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import org.springframework.stereotype.Component;
-import org.yaml.snakeyaml.constructor.Construct;
 
 import java.security.*;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -38,5 +35,27 @@ public class JwtSecreat {
 
         return builder.signWith(privateKey, SignatureAlgorithm.RS256)
                 .compact();
+    }
+
+    public void parseJwtToken(String authHeader){
+        String token = extractToken(authHeader);
+
+        Jwt jwt = Jwts.parserBuilder()
+                .setSigningKey(publicKey)
+                .build()
+                .parse(token);
+    }
+
+    private String extractToken(String auth){
+        return auth.substring("Bearer ".length());
+    }
+
+    public byte[] jwtMapParser(String token){
+        String[] tokens = token.split("\\.");
+        if(tokens.length==3){
+            return Base64.getUrlDecoder().decode(tokens[1]);
+        }else{
+            return null;
+        }
     }
 }
