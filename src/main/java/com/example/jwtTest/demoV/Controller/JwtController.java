@@ -11,17 +11,12 @@ import java.util.HashMap;
 public class JwtController {
     @Autowired
     JwtService jwtService;
-    @ResponseBody
+//    @ResponseBody
     @PostMapping("/jwtTest")
     public byte[] jwtTest(@RequestBody HashMap<String, String> req){
         return jwtService.jwtCreate(req);
     }
-    @ResponseBody
-    @GetMapping("/test")
-    public String apiTest(){
-        System.out.println("hi test");
-        return "Hi";
-    }
+
 
 
 }
